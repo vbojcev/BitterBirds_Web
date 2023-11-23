@@ -1,7 +1,8 @@
 function setup() {
-  // put setup code here
+  createCanvas(displayWidth, displayHeight);
 }
 
 function draw() {
-  // put drawing code here
+  background(150);
+  ellipse(50, 50, 80, 80);
 }
