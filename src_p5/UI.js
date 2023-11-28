@@ -1,15 +1,8 @@
-class UI {
-  constructor() {
-    this.xPos;
-    this.yPos;
-    this.xSize;
-    this.ySize;
-    this.resetButtonClr = 200;
-    this.clr;
-    this.difficulty;
-  }
+function UI() {
+  this.resetButtonClr = 200;
+  this.difficulty = '';
 
-  displayStart(font) {
+  this.displayStart = function (font) {
     textAlign(CENTER, CENTER);
 
     rectMode(CENTER);
@@ -83,9 +76,9 @@ class UI {
     fill(20);
     textFont(font);
     text('BitterBirds', width / 2, height / 3);
-  }
+  };
 
-  displayEnd(font) {
+  this.displayEnd = function (font) {
     fill(20);
     textFont(font);
     text('Game Over', width / 2, height / 3);
@@ -100,7 +93,7 @@ class UI {
         pointMultiplier +
         'x ' +
         this.difficulty +
-        ' this.difficulty multiplier)',
+        ' difficulty multiplier)',
       width / 2,
       height / 2
     );
@@ -128,9 +121,9 @@ class UI {
         eggs[i].reset();
       }
     }
-  }
+  };
 
-  resetButton() {
+  this.resetButton = function () {
     fill(this.resetButtonClr);
     stroke(this.resetButtonClr - 50);
     rectMode(CENTER);
@@ -152,9 +145,9 @@ class UI {
     } else {
       this.resetButtonClr = 200;
     }
-  }
+  };
 
-  getDiff() {
+  this.getDiff = function () {
     return this.difficulty;
-  }
+  };
 }

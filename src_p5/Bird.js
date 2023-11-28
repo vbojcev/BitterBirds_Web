@@ -1,51 +1,49 @@
-class Bird {
-  constructor(
-    x,
-    y,
-    xspeed,
-    yspeed,
-    tempSize,
-    tempbodyclr,
-    tempbeakclr,
-    globalGrav
-  ) {
-    this.xPos = x; //x and y positions of the bird
-    this.yPos = y;
-    this.speedx = xspeed; //speeds of the bird
-    this.speedy = yspeed;
-    this.size = tempSize; //size variable(radius), is used often
-    this.bodyclr = tempbodyclr;
-    this.beakclr = tempbeakclr;
-    this.mouseBirdDist = 0;
-    this.birdSlingDist = 0;
-    this.alpha = 255; //used for dying animation
-    this.dieTime = 0; //for dying function **CURRENTLY 0 FOR A FASTER-PACED GAME**
-    this.launched = false; //for alunching mechanism
-    this.birdDragged = false; //for alunching mechanism
+function Bird(
+  x,
+  y,
+  xspeed,
+  yspeed,
+  tempSize,
+  tempbodyclr,
+  tempbeakclr,
+  globalGrav
+) {
+  this.xPos = x; //x and y positions of the bird
+  this.yPos = y;
+  this.speedx = xspeed; //speeds of the bird
+  this.speedy = yspeed;
+  this.size = tempSize; //size variable(radius), is used often
+  this.bodyclr = tempbodyclr;
+  this.beakclr = tempbeakclr;
+  this.mouseBirdDist = 0;
+  this.birdSlingDist = 0;
+  this.alpha = 255; //used for dying animation
+  this.dieTime = 0; //for dying function **CURRENTLY 0 FOR A FASTER-PACED GAME**
+  this.launched = false; //for alunching mechanism
+  this.birdDragged = false; //for alunching mechanism
 
-    this.birdDragged = false; //for alunching mechanism
-    this.drawStrings = true; //cosmetics
-    this.leftSide = true; //^^^^^
-    this.rightSide = true; //^^^^^
-    this.slingPassed = false; //^^^^^
-    this.dead = false; //for checking if the bird is dead
-    this.stopped = false; //becomes true when bird comes to a stop
-    this.checkStopped = true;
-    this.dropBird = false;
+  this.birdDragged = false; //for alunching mechanism
+  this.drawStrings = true; //cosmetics
+  this.leftSide = true; //^^^^^
+  this.rightSide = true; //^^^^^
+  this.slingPassed = false; //^^^^^
+  this.dead = false; //for checking if the bird is dead
+  this.stopped = false; //becomes true when bird comes to a stop
+  this.checkStopped = true;
+  this.dropBird = false;
 
-    this.bodyclr = 'red';
-    this.beakclr = 'yellow';
+  this.bodyclr = 'red';
+  this.beakclr = [255, 204, 0];
 
-    this.grav = globalGrav;
-  }
+  this.grav = globalGrav;
 
-  move() {
+  this.move = function () {
     //simple move function
     this.xPos += this.speedx;
     this.yPos += this.speedy;
-  }
+  };
 
-  launchBird(slingStartx, slingStarty) {
+  this.launchBird = function (slingStartx, slingStarty) {
     //launching mechanism; interaction between the sling and the bird(s)
 
     this.mouseBirdDist = dist(mouseX, mouseY, this.xPos, this.yPos); //determines the distance between the cursor and the bird
@@ -100,7 +98,7 @@ class Bird {
         //for cosmetic purposes(keeps string in view until bird is released fully)
         this.leftSide = true;
         this.rightSide = false;
-      } else if (xPos > slingStartx) {
+      } else if (this.xPos > slingStartx) {
         //^^^^^
         this.leftSide = false;
         this.rightSide = true;
@@ -143,21 +141,21 @@ class Bird {
     } else {
       this.drawStrings = true; //keeps displaying strings while bird is not past the sling
     }
-  }
+  };
 
-  wallBounce(groundHeight) {
+  this.wallBounce = function (groundHeight) {
     //bounces off the edges of the screen, top and sides may be removed
 
     if (this.xPos - this.size <= 0) {
       //left side, probably not in final game
       this.speedx *= -0.5;
-      this.xPos = 0 + size;
+      this.xPos = 0 + this.size;
     }
 
-    if (this.xPos + this.size >= this.width) {
+    if (this.xPos + this.size >= width) {
       //right side, probably not in final game
       this.speedx *= -0.5;
-      this.xPos = this.width - this.size;
+      this.xPos = width - this.size;
     }
 
     /*if (yPos - size <= 0) {//will probably not be in final game
@@ -168,7 +166,7 @@ class Bird {
     //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
     if (this.yPos + this.size >= groundHeight) {
       this.speedy *= -0.45;
-      this.yPos = this.height - this.height / 10 - this.size;
+      this.yPos = height - height / 10 - this.size;
 
       if (this.speedx < 1.5 && this.speedx > -1.5) {
         this.speedx = 0;
@@ -193,15 +191,15 @@ class Bird {
         this.stopped = true; //used in "die" function, possibly others
       } //else stopped = false;
     }
-  }
+  };
 
-  gravity() {
+  this.gravity = function () {
     //simple gravity function
     this.speedy += this.grav;
     //println(speedx + " " + speedy + " " + launched);
-  }
+  };
 
-  display() {
+  this.display = function () {
     //displays the bird(**I may add more types of birds on the future**)
 
     //println(speedx + " " + speedy);  //Debugging
@@ -215,11 +213,11 @@ class Bird {
      \*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
     //draw the body
-    fill(this.bodyclr, this.alpha); //uses prev. initialized colour variable
+    fill(255, 0, 0, this.alpha); // TO RGB
     ellipse(this.xPos, this.yPos, this.size, this.size);
 
     //draw the beak
-    fill(this.beakclr, this.alpha);
+    fill(this.beakclr[0], this.beakclr[1], this.beakclr[2], this.alpha);
     triangle(
       this.xPos + this.size / 2,
       this.yPos,
@@ -265,11 +263,11 @@ class Bird {
       this.xPos + this.size - this.size / 4,
       this.yPos - this.size / 2,
       this.xPos + this.size + this.size / 4,
-      this.yPos - vsize / 2
+      this.yPos - this.size / 2
     );
-  }
+  };
 
-  reset(slingStartx, slingStarty) {
+  this.reset = function (slingStartx, slingStarty) {
     this.alpha = 255;
     this.size = int(random(15, 20));
     this.launched = false;
@@ -281,9 +279,9 @@ class Bird {
     this.dead = false;
     this.checkStopped = true;
     this.dropBird = false;
-  }
+  };
 
-  die(slingStartx) {
+  this.die = function (slingStartx, slingStarty) {
     //the process of the bird stopping, waiting, fading, and resetting onto the slingshot
 
     //println(millis() + " " + dieTime);  //for debugging
@@ -308,84 +306,84 @@ class Bird {
         this.dropBird = true;
       }
     }
-    if (this.yPos >= this.slingStarty && this.dropBird) {
-      this.reset();
+    if (this.yPos >= slingStarty && this.dropBird) {
+      this.reset(slingStartx, slingStarty);
     }
-  }
+  };
 
-  getSize() {
+  this.getSize = function () {
     //allows size to be used outside of this object
     return this.size;
-  }
+  };
 
-  getx() {
+  this.getx = function () {
     //allows the x position to be use outside of this object
     return this.xPos;
-  }
+  };
 
-  gety() {
+  this.gety = function () {
     //allows the y position to be used outside of this object
     return this.yPos;
-  }
+  };
 
-  setx(x) {
+  this.setx = function (x) {
     //allows x position to be changed outside of object exclusive constructor/functions
     this.xPos = x;
-  }
+  };
 
-  sety(y) {
+  this.sety = function (y) {
     //allows y position to be changed outside of object exclusive constructor/functions
     this.yPos = y;
-  }
+  };
 
-  setSpeedx(x) {
+  this.setSpeedx = function (x) {
     //allows x speed to be changed after initialization
     this.speedx = x;
-  }
+  };
 
-  setSpeedy(y) {
+  this.setSpeedy = function (y) {
     //allows y speed to be changed after initialization
     this.speedy = y;
-  }
+  };
 
-  setDead(dead) {
+  this.setDead = function (dead) {
     //For manual respawning of bird
     this.stopped = dead;
-  }
+  };
 
-  getSpeedx() {
+  this.getSpeedx = function () {
     return this.speedx;
-  }
+  };
 
-  getSpeedy() {
+  this.getSpeedy = function () {
     return this.speedy;
-  }
+  };
 
-  getDrawStrings() {
+  this.getDrawStrings = function () {
     return this.drawStrings;
-  }
+  };
 
-  getLaunched() {
+  this.getLaunched = function () {
     return this.launched;
-  }
+  };
 
-  getStopped() {
+  this.getStopped = function () {
     return this.stopped;
-  }
+  };
 
-  getDragged() {
+  this.getDragged = function () {
     return this.birdDragged;
-  }
+  };
 
-  getPassed() {
+  this.getPassed = function () {
     return this.slingPassed;
-  }
+  };
 
-  getSize() {
+  this.getSize = function () {
     return this.size;
-  }
+  };
 
-  isDead() {
+  this.isDead = function () {
     return this.dead;
-  }
+  };
 }

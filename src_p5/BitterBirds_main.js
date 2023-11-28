@@ -2,7 +2,7 @@ let globalGravity = 0.3; //Gravity value for all objects affected by physics
 
 let pointMultiplier = 1; //Award more or less points to player according to difficulty level
 
-let points; //Amount of points the player has; is calculated as a float so that fractions of a point can be added, displayed later as an int so that no decimals appear on the screen
+let points = 0; //Amount of points the player has; is calculated as a float so that fractions of a point can be added, displayed later as an int so that no decimals appear on the screen
 
 let difficulty; //Level of ifficulty - 1, 2, and 3
 
@@ -38,7 +38,9 @@ let pig; //declares the sinular pig object
 let font; //Declares the font, is called font because it's the only font ever used
 
 function setup() {
-  createCanvas(1920, 1080); //For windowed mode, almost the whole game scales with resolution
+  let cnv = createCanvas(windowWidth, windowHeight); //For windowed mode, almost the whole game scales with resolution
+
+  cnv.style('display', 'block');
 
   frameRate(60); //For buttery smooth gameplay
 
@@ -73,7 +75,7 @@ function setup() {
     env.getGroundHeight()
   ); //Pig object, Player must hit it
 
-  font = loadFont('angrybirds-regular.ttf', 64); //Loads the font used throughout the whole game
+  font = loadFont('angrybirds-regular.ttf'); //Loads the font used throughout the whole game
 
   predictor = []; //Initialization for the predictor feature
 
@@ -84,6 +86,10 @@ function setup() {
 
     eggStartx += 50;
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
@@ -117,15 +123,13 @@ function draw() {
 
     //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
     if (bird.getDragged() && enablePredictor) {
-      predictor.push(new Prediction());
+      predictor.push(new Prediction(globalGravity));
 
-      for (let i = 0; i < predictor.size(); i++) {
-        let p = predictor[i];
-        //Prediction feature, using an ArrayList
-        p.predict(sling.getStartx(), sling.getStarty(), bird.getLaunched());
-        p.display();
+      for (let i = 0; i < predictor.length; i++) {
+        predictor[i].predict(sling.getStartx(), sling.getStarty());
+        predictor[i].display();
 
-        if (p.isDead()) {
+        if (predictor[i].isDead() || bird.isDead()) {
           predictor.shift();
         }
       }
@@ -146,26 +150,26 @@ function draw() {
     sling.drawFront();
 
     //\/\/\/\/\/\/\/\/\/\
-    bird.wallBounce();
-    bird.launchBird(); //Bird gameplay and physics
-    bird.die();
+    bird.wallBounce(env.getGroundHeight());
+    bird.launchBird(sling.getStartx(), sling.getStarty()); //Bird gameplay and physics
+    bird.die(sling.getStartx(), sling.getStarty());
     //\/\/\/\/\/\/\/\/\/\
 
-    for (let i = 0; i < eggs.length; i++) {
+    for (let i = 0; i < eggsCount; i++) {
       /*if (eggs[i].getEaten() == false) {
         eggs[i].display(); //Code for the eggs
         eggs[i].getStolen();
       }*/
 
       if (!eggs[i].isEaten()) {
-        eggs[i].display();
+        eggs[i].display(pig.getx(), pig.gety(), pig.getSize());
 
         if (pig.getx() <= eggs[i].getx() && !eggs[i].isStolen()) {
           pig.setSpeed(-1);
           eggs[i].setStolen(true);
         }
 
-        if (eggs[i].getx() >= eggs[i].getWidth() + (eggs[i].size * 3) / 4) {
+        if (eggs[i].getx() >= width + (eggs[i].getSize() * 3) / 4) {
           eggs[i].setEaten(true);
           eggsCount--;
         }
@@ -194,14 +198,14 @@ function draw() {
     //It is game over if there is no eggs left
     gameOver = true;
   }
-}
 
-function keyPressed() {
-  if (key == ' ' && bird.getLaunched() && bird.getPassed() && enableReset) {
-    //On PC, press space to reset the bird
-    //bird.reset();
-    bird.setDead(true);
-    bird.setSpeedx(0);
-    bird.setSpeedy(0);
+  function keyPressed() {
+    if (key == ' ' && bird.getLaunched() && bird.getPassed() && enableReset) {
+      //On PC, press space to reset the bird
+      //bird.reset();
+      bird.setDead(true);
+      bird.setSpeedx(0);
+      bird.setSpeedy(0);
+    }
   }
 }

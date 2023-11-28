@@ -1,24 +1,22 @@
-class Pig {
-  constructor(tp, x, y, xspeed, yspeed, sz, clr, grav, groundHeight) {
-    this.type = tp;
-    this.xPos = x;
-    this.yPos = y;
-    this.speedx = xspeed;
-    this.speedy = yspeed;
-    this.size = sz;
-    this.balloonclr = clr;
-    this.alpha = 255;
-    this.balloonPopped = false;
-    this.killed = false;
-    this.killable = true;
-    this.randomizer;
-    this.type = 1;
-    this.balloonclr;
-    this.g = grav;
-    this.groundHeight = groundHeight;
-  }
+function Pig(tp, x, y, xspeed, yspeed, sz, clr, grav, groundHeight) {
+  this.type = tp;
+  this.xPos = x;
+  this.yPos = y;
+  this.speedx = xspeed;
+  this.speedy = yspeed;
+  this.size = sz;
+  this.balloonclr = clr;
+  this.alpha = 255;
+  this.balloonPopped = false;
+  this.killed = false;
+  this.killable = true;
+  this.randomizer = 0;
+  this.type = 1;
+  this.balloonclr = 1;
+  this.g = grav;
+  this.groundHeight = groundHeight;
 
-  move(birdDead, birdx, birdy, birdSize, isLaunched) {
+  this.move = function (birdDead, birdx, birdy, birdSize, isLaunched) {
     //println(height - (size * 4/5) - size - this.groundHeight);
 
     if (this.type == 1 || this.balloonPopped) {
@@ -45,8 +43,11 @@ class Pig {
         height - (this.size * 4) / 5 - this.size - (height - this.groundHeight);
 
       this.speedy *= -1;
-    } else if (type == 3 && yPos > this.groundHeight + this.size * 1.3) {
-      this.yPos = this.groundHeight + size * 1.3;
+    } else if (
+      this.type == 3 &&
+      this.yPos > this.groundHeight + this.size * 1.3
+    ) {
+      this.yPos = this.groundHeight + this.size * 1.3;
     }
 
     if (this.xPos >= width + this.size * 3 && !birdDead) {
@@ -108,15 +109,15 @@ class Pig {
     ) {
       this.balloonPopped = true;
     }
-  }
+  };
 
-  gravity() {
+  this.gravity = function () {
     if (this.type == 1 && this.killed == false) {
       this.speedy += this.g;
     }
-  }
+  };
 
-  reset() {
+  this.reset = function () {
     this.killed = false;
     this.killable = true;
     this.alpha = 255;
@@ -136,29 +137,29 @@ class Pig {
       this.speedy = 0;
       this.speedx = random(-5, -2);
       this.balloonclr = int(random(1, 4));
-    } else if (randomizer >= 61) {
+    } else if (this.randomizer >= 61) {
       this.type = 3;
       this.speedy = 0;
       this.yPos = this.groundHeight - this.size * 1.3;
       this.speedx = random(-8, -4);
     }
-  }
+  };
 
-  balloonPop() {
+  this.balloonPop = function () {
     if (this.balloonPopped && this.type == 2) {
       this.speedy += this.g;
 
       if (this.yPos + this.size >= this.groundHeight && this.killable) {
         //reset();
-        this.yPos = this.groundHeight - size - 1;
+        this.yPos = this.groundHeight - this.size - 1;
         this.killable = false;
         points += 1 * pointMultiplier;
         this.killed = true;
       }
     }
-  }
+  };
 
-  die() {
+  this.die = function () {
     if (this.killed) {
       this.alpha -= 6;
       this.speedx = 0;
@@ -168,9 +169,9 @@ class Pig {
         this.reset();
       }
     }
-  }
+  };
 
-  display(birdx, birdy) {
+  this.display = function (birdx, birdy) {
     if (this.type == 1 && this.killed == false) {
       this.spring();
     } else if (
@@ -182,8 +183,8 @@ class Pig {
     }
 
     //Body and ears
-    fill('#6BB72E', alpha);
-    stroke('#4A7E20', alpha);
+    fill(107, 183, 46, this.alpha);
+    stroke(74, 126, 32, this.alpha);
     strokeWeight(this.size / 10);
     ellipseMode(RADIUS);
     ellipse(
@@ -250,11 +251,11 @@ class Pig {
     );
 
     //Snout;
-    stroke('#4A7E20', this.alpha);
+    stroke(74, 126, 32, this.alpha);
     strokeWeight(this.size / 10);
-    fill('#6BB72E', this.alpha);
+    fill(107, 183, 46, this.alpha);
     ellipse(this.xPos, this.yPos, this.size / 3, ((this.size / 3) * 4) / 5);
-    fill('#6BB72E', this.alpha);
+    fill(107, 183, 46, this.alpha);
     ellipse(
       this.xPos - this.size / 9,
       this.yPos,
@@ -267,9 +268,9 @@ class Pig {
       this.size / 15,
       this.size / 15
     );
-  }
+  };
 
-  angry() {
+  this.angry = function () {
     //Draws angry eyebrows, default setting
     strokeWeight(this.size / 10);
     stroke(0, this.alpha);
@@ -285,9 +286,9 @@ class Pig {
       this.xPos + this.size / 2 + this.size / 4,
       this.yPos - this.size / 4 - this.size / 4
     );
-  }
+  };
 
-  scared() {
+  this.scared = function () {
     //Draws scared eyebrows, for when bird is near pig
     strokeWeight(this.size / 10);
     stroke(0, this.alpha);
@@ -303,9 +304,9 @@ class Pig {
       this.xPos + this.size / 2 + this.size / 4,
       this.yPos - this.size / 4 - this.size / 6
     );
-  }
+  };
 
-  spring() {
+  this.spring = function () {
     noFill();
     stroke(150, this.alpha);
     strokeWeight(this.size / 10);
@@ -338,9 +339,9 @@ class Pig {
       this.xPos - this.size / 5,
       this.yPos + (this.size * 4) / 5 + (this.size / 5) * 5
     );
-  }
+  };
 
-  balloon() {
+  this.balloon = function () {
     strokeWeight(this.size / 10);
     stroke(0, this.alpha);
     line(
@@ -381,11 +382,11 @@ class Pig {
       this.size / 1.5,
       this.size
     );
-  }
+  };
 
-  cart() {
-    fill('#A06023', this.alpha);
-    stroke('#6A3E14', this.alpha);
+  this.cart = function () {
+    fill('#A06023'); //TO RGB
+    stroke('#6A3E14'); //TO RGB
 
     strokeWeight(this.size / 10);
     rectMode(CENTER);
@@ -409,21 +410,21 @@ class Pig {
       this.size / 2,
       this.size / 2
     );
-  }
+  };
 
-  getx() {
+  this.getx = function () {
     return this.xPos;
-  }
+  };
 
-  gety() {
+  this.gety = function () {
     return this.yPos;
-  }
+  };
 
-  getSize() {
+  this.getSize = function () {
     return this.size;
-  }
+  };
 
-  setSpeed(s) {
+  this.setSpeed = function (s) {
     this.speedx *= s;
-  }
+  };
 }

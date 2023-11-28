@@ -9,3 +9,5 @@ Have no clue how to handle positioning and sizing of the canvas. Maybe [This Lin
 I gotta look into how colour works. Sometimes it can just be a string but there's also a built-in p5.color object interface?
 
 Also gotta figure out how to handle points. Currently there's a lot of code embedded in the UI and Pig classes... I don't want to have hella class methods needing hella parameters.
+
+Using hex codes and alpha at the same time with fill/stroke doesn't work anymore. I'll have to convert all those hex codes to RGB to use the 4-argument versions of those functions.

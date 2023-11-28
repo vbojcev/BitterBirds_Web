@@ -1,17 +1,14 @@
-class SunAndMoon {
+function SunAndMoon() {
   //The sun and moon is actually one ball that changes colour
 
-  constructor() {
-    this.size = height / 20;
-    this.xPos = width / 2;
-    this.yPos = height / 4;
-    this.speed = 1;
-    this.clr = '#FFC400';
-    this.day = true;
-    this.resetting;
-  }
+  this.size = height / 20;
+  this.xPos = width / 2;
+  this.yPos = height / 4;
+  this.speed = 1;
+  this.clr = '#FFC400';
+  this.day = true;
 
-  move() {
+  this.move = function () {
     this.xPos += this.speed;
 
     if (this.xPos >= width + this.size) {
@@ -19,16 +16,16 @@ class SunAndMoon {
 
       this.reset();
     }
-  }
+  };
 
-  display() {
-    fill(clr);
+  this.display = function () {
+    fill(this.clr);
     noStroke();
     ellipseMode(RADIUS);
     ellipse(this.xPos, this.yPos, this.size, this.size);
-  }
+  };
 
-  reset() {
+  this.reset = function () {
     this.day = !this.day;
 
     if (this.day) {
@@ -36,9 +33,9 @@ class SunAndMoon {
     } else if (this.day == false) {
       this.clr = color(225);
     }
-  }
+  };
 
-  getDay() {
+  this.getDay = function () {
     return this.day;
-  }
+  };
 }

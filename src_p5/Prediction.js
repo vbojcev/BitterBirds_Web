@@ -1,22 +1,20 @@
-class Prediction {
-  constructor(grav) {
-    this.xPos = bird.getx();
-    this.yPos = bird.gety();
-    this.speedx = 0;
-    this.speedy = 0;
-    this.dieTime = millis() + 2000;
-    this.launched = false;
-    this.dead;
-    this.g = grav;
-  }
+function Prediction(grav) {
+  this.xPos = bird.getx();
+  this.yPos = bird.gety();
+  this.speedx = 0;
+  this.speedy = 0;
+  this.dieTime = millis() + 2000;
+  this.launched = false;
+  this.dead = true;
+  this.g = grav;
 
-  display() {
+  this.display = function () {
     fill(255, 150);
     noStroke();
     ellipse(this.xPos, this.yPos, 5, 5);
-  }
+  };
 
-  predict(slingStartx, slingStarty, birdLaunched) {
+  this.predict = function (slingStartx, slingStarty) {
     if (this.launched == false) {
       //Only allows this block of code to run once
       this.speedx = (slingStartx - this.xPos) / 1; //uses distance from resting x to dragged-to x to make speed; divided by less than the bird's so that it updates quickly
@@ -31,11 +29,11 @@ class Prediction {
       this.xPos += this.speedx;
       this.yPos += this.speedy;
     }
-  }
+  };
 
-  isDead() {
-    if (millis() >= this.dieTime || birdLaunched) {
+  this.isDead = function () {
+    if (millis() >= this.dieTime) {
       return true;
     } else return false;
-  }
+  };
 }

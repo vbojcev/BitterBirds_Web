@@ -1,15 +1,12 @@
-class SlingShot {
-  constructor(x, y, tempHeight, clr) {
-    this.xPos = x;
-    this.yPos = y;
-    this.c = clr;
-    this.hght = tempHeight;
-    this.birdRestPos;
-    this.birdStartx;
-    this.birdStarty;
-  }
+function SlingShot(x, y, tempHeight, clr) {
+  this.xPos = x;
+  this.yPos = y;
+  this.c = clr;
+  this.hght = tempHeight;
+  this.birdStartx = x;
+  this.birdStarty = y;
 
-  drawFront() {
+  this.drawFront = function () {
     //Draw the main post
     stroke(this.c);
     strokeWeight(this.hght / 4);
@@ -33,10 +30,10 @@ class SlingShot {
     strokeWeight(this.hght / 8);
     rectMode(CORNER);
     rect(this.xPos - this.hght, this.yPos, this.hght * 2, -30);
-  }
+  };
 
-  drawBehind() {
-    stroke(c);
+  this.drawBehind = function () {
+    stroke(this.c);
     strokeWeight(this.hght / 4);
     line(
       this.xPos,
@@ -44,20 +41,20 @@ class SlingShot {
       this.xPos + this.hght / 2,
       this.yPos - this.hght * 3.5 - 30
     );
-  }
+  };
 
-  getStartx() {
+  this.getStartx = function () {
     this.birdStartx = this.xPos;
     return this.birdStartx;
-  }
+  };
 
-  getStarty() {
+  this.getStarty = function () {
     this.birdStarty = this.yPos - this.hght * 3.5 - 30;
     //println (birdStarty);
     return this.birdStarty;
-  }
+  };
 
-  drawStringsLeft(draw, birdx, birdy, birdSize) {
+  this.drawStringsLeft = function (draw, birdx, birdy, birdSize) {
     if (draw) {
       stroke(0);
       strokeWeight(this.hght / 8);
@@ -68,9 +65,9 @@ class SlingShot {
         birdy
       );
     }
-  }
+  };
 
-  drawStringsRight(draw, birdx, birdy, birdSize) {
+  this.drawStringsRight = function (draw, birdx, birdy, birdSize) {
     if (draw) {
       stroke(0);
       strokeWeight(this.hght / 8);
@@ -81,5 +78,5 @@ class SlingShot {
         birdy
       );
     }
-  }
+  };
 }

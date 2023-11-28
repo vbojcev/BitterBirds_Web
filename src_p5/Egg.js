@@ -1,13 +1,13 @@
-class Egg {
-  constructor(x, y) {
-    this.spawnx, (this.xPos = x);
-    this.spawny, (this.yPos = y);
-    this.size = 30;
-    this.stolen = false;
-    this.eaten = false;
-  }
+function Egg(x, y) {
+  this.spawnx = x;
+  this.xPos = x;
+  this.spawny = y;
+  this.yPos = y;
+  this.size = 30;
+  this.stolen = false;
+  this.eaten = false;
 
-  display(pigx, pigy, pigSize) {
+  this.display = function (pigx, pigy, pigSize) {
     fill(255); //Simple drawing commands
     stroke(200);
 
@@ -18,7 +18,7 @@ class Egg {
       this.xPos = pigx + pigSize;
       this.yPos = pigy;
     }
-  }
+  };
 
   /*
   getStolen() {
@@ -33,38 +33,38 @@ class Egg {
     }
   }*/
 
-  reset() {
+  this.reset = function () {
     this.stolen = false;
     this.eaten = false;
     this.xPos = this.spawnx;
     this.yPos = this.spawny;
-  }
+  };
 
-  isStolen() {
+  this.isStolen = function () {
     return this.stolen;
-  }
+  };
 
-  setStolen(s) {
+  this.setStolen = function (s) {
     this.stolen = s;
-  }
+  };
 
-  setEaten(e) {
+  this.setEaten = function (e) {
     this.eaten = e;
-  }
+  };
 
-  isEaten() {
+  this.isEaten = function () {
     return this.eaten;
-  }
+  };
 
-  getx() {
+  this.getx = function () {
     return this.xPos;
-  }
+  };
 
-  getWidth() {
+  this.getWidth = function () {
     return this.width;
-  }
+  };
 
-  getSize() {
+  this.getSize = function () {
     return this.size;
-  }
+  };
 }
